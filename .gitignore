@@ -1,3 +1,4 @@
 .vs/
-Polish/bin/
-Polish/obj/
+*/bin/
+*/obj/
+*.user
