@@ -15,6 +15,9 @@ type ``TokenInputTests`` ()=
            yield ("343- 2", 341.)
            yield ("2+3 /2", 3.5)
            yield ("7*6/2+1", 22.)
+           yield ("(2+3)/2", 2.5)
+           yield ("1+(2/4)", 1.5)
+           yield ("3-(34-2)+3", -26.)
        }
            
    [<TestCaseSource(nameof(``TokenInputTests``.``args``))>] 

@@ -46,6 +46,7 @@ type private Operator =
                                | BinaryOperator _ -> -1)
         | BinaryOperator lvbo -> (match rv with
                                    | BinaryOperator rvbo -> lvbo.CompareToOperator(rvbo)
+                                   | ZeroOperator ZeroOperator.OpeningBracket -> 1
                                    | _ -> -1)
     
 let private TryParseToOperator (str : string) : (bool * Operator) =
@@ -72,7 +73,7 @@ let private parseCore (tokens: seq<string>) : Stack<ParsedUnit> =
                                     | BinaryOperator _ when operators.Count = 0 -> operators.Push p
                                     | ZeroOperator OpeningBracket -> operators.Push p
                                     | ZeroOperator ClosingBracket -> (while not (operators.Peek() = Operator.ZeroOperator ZeroOperator.OpeningBracket) do
-                                                                        operators.Pop() |> ParsedUnit.Operator |> output.Push)
+                                                                        operators.Pop() |> ParsedUnit.Operator |> output.Push); operators.Pop() |> ignore
                                     | BinaryOperator _ when operators.Count > 0 -> (match (operators.Peek() |> p.CompareToOperator) with 
                                                                                         | 1 -> operators.Push p
                                                                                         | _ -> ((while ((operators.Count > 0) && (operators.Peek() |> p.CompareToOperator) <= 0) do
