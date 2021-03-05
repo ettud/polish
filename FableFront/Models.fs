@@ -12,7 +12,7 @@ type State =
     new() =
         { calculationString = ""; result = CalculationResult.None }
 
-    new calculationString =
+    new (calculationString) =
         { calculationString = calculationString; result = CalculationResult.None }
 
     private new(calculationString, result) =
@@ -20,3 +20,7 @@ type State =
 
     member this.SetResult result =
         State(this.calculationString, result)
+
+    member this.GetRecord = //a hack because Thoth by default does not work with types that are neither tuples nor records
+        {| calculationString = this.calculationString; result = this.result |}
+        

@@ -28,7 +28,7 @@ let generateHtml view (state : State) (serializer : IJsonSerializer) =
     let curView = view state ignore
     let clientHtml = curView |> Fable.ReactServer.renderToString
 
-    let stateJson = state |> serializer.SerializeToString |> Encode.string |> Encode.toString 0
+    let stateJson = state.GetRecord |> serializer.SerializeToString |> Encode.string |> Encode.toString 0
 
     html []
       [ head []
@@ -63,7 +63,7 @@ let configureApp  (app : IApplicationBuilder) =
 
 let configureServices (services : IServiceCollection) =
     services.AddGiraffe() |> ignore
-    services.AddSingleton<IJsonSerializer, ThothSerializer>() |> ignore
+    services.AddSingleton<IJsonSerializer, ThothSerializer>(fun _ -> new ThothSerializer()) |> ignore
 
 
 [<EntryPoint>]
